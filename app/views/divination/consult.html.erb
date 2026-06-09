@@ -1,0 +1,40 @@
+  <%= turbo_frame_tag "books" do %>
+    <h1 class="mystic-text">Consult</h1>
+    <% if @books.present? %>
+      <div class="row justify-content-center">
+        <div class="col-md-10">
+          <h3 class="mystic-text mb-4">
+            <i class="bi bi-bookshelf"></i> Tomes Consulted
+          </h3>
+        </div>
+      </div>
+          
+      <div class="row g-3">
+        <% @books.each_with_index do |book, idx| %>
+          <% if true %>
+            <div class="col-md-4">
+              <div class="card h-100 bg-dark border-secondary hut-glow">
+                <div class="card-body">
+                  <h5 class="card-title mystic-text">
+                    <i class="bi bi-book"></i> <%= book.title %>
+                  </h5>
+                  <% if book.author.present? %>
+                    <h6 class="card-subtitle mb-2 hut-author">
+                      <i class="bi bi-person"></i> <%= book.author.name %>
+                    </h6>
+                  <% end %>
+                  <p class="card-text small hut-description">
+                    <%= book.description %>
+                  </p>
+                  <span class="badge bg-warning text-dark">
+                    <i class="bi bi-diagram-3"></i> Resonance: <%= book.similarity %>
+                  </span>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+    <p></p>
+  <% end %>

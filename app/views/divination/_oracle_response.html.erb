@@ -1,0 +1,31 @@
+<div class="card oracle-card mb-5">
+    <div class="card-body p-4 p-md-5">
+      
+      <!-- Header -->
+      <div class="oracle-header">
+        <i class="bi bi-stars oracle-icon"></i>
+        <div>
+          <h4 class="mystic-text mb-0" style="font-size: 1.25rem; letter-spacing: 0.05em;">
+            The Hut Speaks
+          </h4>
+          <small class="text-secondary">Wisdom drawn from the ancient tomes</small>
+        </div>
+      </div>
+      
+      <!-- The Oracle's Response -->
+      <div class="oracle-text">
+        <%= @response %>
+      </div>
+      
+      <!-- Source Attribution -->
+      <% if @books.any? %>
+        <div class="oracle-sources mt-5">
+          <i class="bi bi-journal-bookmark-fill me-1"></i>
+          Consulted <%= pluralize(@books.length, 'tome') %>: 
+          <%= @books.map { |b| content_tag(:span, b.title, class: "text-light") }.to_sentence.html_safe %>
+        </div>
+      <% end %>
+      
+    </div>
+  </div>
+

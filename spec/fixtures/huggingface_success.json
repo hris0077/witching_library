@@ -1,0 +1,21 @@
+{
+  "id": "chatcmpl-123",
+  "object": "chat.completion",
+  "created": 1234567890,
+  "model": "microsoft/Phi-3-mini-4k-instruct",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "The hut whispers of ancient magic and forgotten spells..."
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 50,
+    "completion_tokens": 20,
+    "total_tokens": 70
+  }
+}

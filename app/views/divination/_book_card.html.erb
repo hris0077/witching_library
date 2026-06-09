@@ -1,0 +1,21 @@
+
+
+  <div class="card h-100 bg-dark border-secondary hut-glow">
+    <div class="card-body">
+      <h5 class="card-title mystic-text">
+        <i class="bi bi-book"></i> <%= book.title %>
+      </h5>
+      <% if book.author.present? %>
+        <h6 class="card-subtitle mb-2 hut-author">
+          <i class="bi bi-person"></i> <%= book.author.name %>
+        </h6>
+      <% end %>
+      <p class="card-text small hut-description">
+        <%= book.description %>
+      </p>
+      <span class="badge bg-warning text-dark">
+        <i class="bi bi-diagram-3"></i> Resonance: <%= book.similarity %>
+      </span>
+    </div>
+  </div>
+

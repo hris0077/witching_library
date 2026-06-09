@@ -1,0 +1,171 @@
+body {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  font-family: "Inter", sans-serif;
+}
+
+.hut-glow {
+  box-shadow: 0 0 15px rgba(159, 122, 234, 0.3);
+  transform: translateY(-2px);
+}
+
+.mystic-text {
+  color: #f6ad55;
+  text-shadow: 0 0 10px rgba(246, 173, 85, 0.5);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.hut-author {
+  color: #d4af37;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.hut-description {
+  color: #c5cdd6;
+  line-height: 1.5;
+}
+
+.hut-subtle {
+  color: #a0aec0; /* Soft silver - readable on dark */
+}
+
+h1,
+h2,
+h3,
+.mystic-heading {
+  font-family: "Cinzel", serif;
+  color: #f6ad55;
+}
+
+.navbar .btn-outline-light:hover {
+  color: var(--bs-dark);
+}
+/*
+.header {
+  background: url(../images/header-background.jpg) center center no-repeat;
+  background-size: cover;
+}
+*/
+/* Dark form overrides */
+.form-control.bg-dark {
+  background-color: #1a1d23 !important;
+  color: #e8e6e3 !important;
+  border: 1px solid #3a3f47 !important;
+}
+.form-control.bg-dark:focus {
+  border-color: #8b5cf6 !important;
+  box-shadow: 0 0 0 0.2rem rgba(139, 92, 246, 0.25) !important;
+  color: #ffffff !important;
+}
+
+.form-label {
+  font-size: 0.85rem;
+  letter-spacing: 0.3px;
+}
+.form-control.bg-dark::placeholder {
+  color: #8892a0 !important;
+  opacity: 1;
+}
+
+.flash {
+  position: fixed;
+  top: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-s);
+
+  max-width: 100%;
+  width: max-content;
+  padding: 0 var(--space-m);
+
+  &__message {
+    font-size: var(--font-size-s);
+    color: var(--color-white);
+    padding: var(--space-xs) var(--space-m);
+    background-color: #f6ad55;
+    animation: appear-then-fade 4s both;
+    border-radius: 999px;
+  }
+}
+
+/* --- Oracle Response Styling --- */
+
+.oracle-card {
+  background: linear-gradient(145deg, #1a1d23 0%, #22262e 100%);
+  border: 1px solid rgba(212, 175, 55, 0.3); /* Subtle gold border */
+  border-left: 4px solid #d4af37; /* Strong gold accent on the left */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(212, 175, 55, 0.1); /* Soft gold glow */
+  animation: oracleReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes oracleReveal {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.oracle-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.oracle-icon {
+  font-size: 1.8rem;
+  color: #d4af37;
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4));
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.7));
+  }
+}
+
+.oracle-text {
+  font-family: "Georgia", "Times New Roman", serif; /* Ancient book feel */
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #e8e6e3;
+  letter-spacing: 0.02em;
+}
+
+.oracle-text p {
+  margin-bottom: 1.2rem;
+}
+
+.oracle-text p:last-child {
+  margin-bottom: 0;
+}
+
+.oracle-sources {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px dashed rgba(255, 255, 255, 0.15);
+  font-size: 0.85rem;
+  color: #a0aec0;
+  font-style: italic;
+}
+
+.oracle-sources i {
+  color: #8b5cf6; /* Mystical purple accent for the source icon */
+}

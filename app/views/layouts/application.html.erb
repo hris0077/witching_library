@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Witching Library" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Witching Library">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
+      <div class="container">
+        <a href="<%= root_path %>" class="navbar-brand d-flex align-items-center">
+          <i class="bi bi-house-heart-fill me-2" style="font-size: 1.8rem; color: #d4af37;"></i>
+          <span class="fw-bold">The Hut</span>
+        </a>
+
+        <!-- Hamburger toggle -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarMain"
+          aria-controls="navbarMain"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Single unified collapse container -->
+        <div class="collapse navbar-collapse" id="navbarMain">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a href="<%= root_path %>" class="nav-link fw-semibold">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="#details" class="nav-link fw-semibold">Details</a>
+            </li>
+            <li class="nav-item">
+              <a href="#contact" class="nav-link btn btn-outline-light px-4 mx-4 fw-semibold">Contact</a>
+            </li>
+
+            <!-- Auth section: properly wrapped dropdown -->
+            <% if authenticated? %>
+              <li class="nav-item dropdown">
+                <button 
+                  class="nav-link dropdown-toggle" 
+                  type="button" 
+                  data-bs-toggle="dropdown" 
+                  aria-expanded="false"
+                  data-turbo="false"
+                >
+                  <i class="bi bi-person-circle"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end bg-dark border-secondary">
+                  <li><h6 class="dropdown-header text-secondary">Signed in as:<br /><%= Current.user.email_address %></h6></li>
+                  <li><hr class="dropdown-divider bg-secondary"></li>
+                  <li><%= link_to 'Account', edit_user_profile_path, class: 'dropdown-item text-light' %></li>
+                  <li>
+                    <%= button_to 'Sign out', session_path, 
+                        method: :delete, 
+                        class: 'dropdown-item text-light',
+                        form: { data: { turbo: false } } %>
+                  </li>
+                </ul>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to 'Sign in', new_session_path, class: 'nav-link' %>
+              </li>
+              <li class="nav-item">
+                <%= link_to 'Sign up', new_registration_path, class: 'nav-link' %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="flash">
+      <% flash.each do |flash_type, message| %>
+        <div class="flash__message">
+          <%= message %>
+        </div>
+      <% end %>
+    </div>
+
+    <header class="header">
+      <div class="hero text-white pt-7">
+        <div class="container-xl">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="image-container mb-5 px-4">
+                <!--<img src="images/header-ebook.png" alt="" class="img-fluid">-->
+              </div>
+            </div>
+          </div>
+          <%= yield %>
+        </div>
+      </div>
+      <svg
+        class="frame-decoration"
+        data-name="Layer 2"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+        viewBox="0 0 1920 192.275"
+      >
+        <defs>
+          <style>
+            .cls-1 { fill: #f3f6f9; }
+          </style>
+        </defs>
+        <title>frame-decoration</title>
+        <path
+          class="cls-1"
+          d="M0,158.755s63.9,52.163,179.472,50.736c121.494-1.5,185.839-49.738,305.984-49.733,109.21,0,181.491,51.733,300.537,50.233,123.941-1.562,225.214-50.126,390.43-50.374,123.821-.185,353.982,58.374,458.976,56.373,217.907-4.153,284.6-57.236,284.6-57.236V351.03H0V158.755Z"
+          transform="translate(0 -158.755)"
+        ></path>
+      </svg>
+    </header>
+  </body>
+</html>

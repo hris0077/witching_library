@@ -1,0 +1,32 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="card bg-dark border-secondary hut-glow">
+        <div class="card-body p-5">
+          <div class="text-center mb-4">
+            <i class="bi bi-envelope-at-fill display-4" style="color: #d4af37;"></i>
+            <h2 class="hut-mystic t mt-2">Renew Your Sigil</h2>
+            <p class="hut-subtle small">
+              The hearth has dimmed, but the hut remembers. Leave your true name, and a renewal sigil will be sent.
+            </p>
+          </div>
+
+          <%= form_with url: passwords_path, local: true do |f| %>
+            <div class="mb-4">
+              <%= f.label :email, "Your True Name", class: "form-label hut-subtle" %>
+              <%= f.email_field :email, class: "form-control form-control-lg rounded-5 bg-dark", placeholder: "scholar@archive.com", autofocus: true %>
+            </div>
+
+            <div class="d-grid">
+              <%= f.submit "Send the Raven", class: "btn btn-primary btn-lg text-white hut-glow" %>
+            </div>
+          <% end %>
+
+          <div class="text-center mt-4">
+            <%= link_to "← Return to the threshold", new_session_path, class: "text-muted small" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
