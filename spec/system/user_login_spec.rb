@@ -1,7 +1,15 @@
 require "rails_helper"
 
 RSpec.describe "Users login", type: :system do
-  let!(:user) { create(:user, email_address: 'user@example.com', password: 'securepass123') }
+  let!(:user) do
+    create(:user,
+      email_address: "user@example.com",
+      first_name: "FirstName",
+      last_name: "LastName",
+      password: "securepass123",
+      password_confirmation: "securepass123"
+    )
+  end
 
   it "logs in with valid credentials" do
     visit new_session_path

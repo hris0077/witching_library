@@ -10,9 +10,9 @@ module Ai
     MAX_DESCRIPTION_CHARS = 200
 
     def self.for(query:, books:)
-      puts "query send"
-      puts query
-      puts books
+      # puts "query send"
+      # puts query
+      # puts books
       new(query: query, books: books).build
     end
 
