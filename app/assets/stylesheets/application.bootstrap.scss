@@ -1,0 +1,13 @@
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap-icons/font/bootstrap-icons";
+
+:root {
+  --bs-body-bg: #1a1f2e;
+  --bs-body-color: #e2e8f0;
+  --bs-primary: #9f7aea;
+  --bs-success: #68d391;
+  --bs-warning: #f6ad55;
+  --bs-danger: #fc8181;
+  --bs-border-color: #4a5568;
+}
+@import "styles";

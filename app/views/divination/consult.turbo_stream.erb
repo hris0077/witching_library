@@ -1,0 +1,42 @@
+<%# 1. Update the Oracle Response Area %>
+<%= turbo_stream.replace "oracle-response-area" do %>
+  <div id="oracle-response-area">
+    <% if @response.present? %>
+      <%= render "oracle_response" %>
+    <% end %>
+    <% if @query.blank? %>
+      <!-- Empty Query State -->
+      <div class="alert alert-dark border-warning text-center py-4 mt-4" role="alert" style="background-color: rgba(212, 175, 55, 0.05);">
+        <i class="bi bi-mic-mute display-4 mb-2" style="color: #d4af37;"></i>
+        <h5 class="mystic-text">Silence Yields No Secrets</h5>
+        <p class="text-secondary mb-0">
+          The Hut cannot read minds, only words. Whisper your question to the archives, seeker.
+        </p>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<%# 2. Update the Books Area %>
+<%= turbo_stream.replace "books-area" do %>
+  <div id="books-area">
+    <% if @books.present? %>
+      <h5 class="mystic-text mb-3 mt-4">
+        <i class="bi bi-journal-bookmark-fill me-2"></i> Tomes Consulted
+      </h5>
+      <div class="row g-3">
+        <% @books.each do |book| %>
+          <div class="col-4">
+            <%= render partial: "book_card", locals: { book: book } %>
+          </div>
+        <% end %>
+      </div>
+    <% elsif @query.present? %>
+      <div class="text-center py-5 mt-5">
+        <i class="bi bi-moon-stars display-1" style="color: #6c757d;"></i>
+        <h4 class="mystic-text mt-3">The Hut Falls Silent</h4>
+        <p class="text-secondary">No tomes matched your query.</p>
+      </div>
+    <% end %>
+  </div>
+<% end %>
