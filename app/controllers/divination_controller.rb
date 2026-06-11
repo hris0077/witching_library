@@ -4,7 +4,7 @@ class DivinationController < ApplicationController
   end
 
   def consult
-    @query = params.fetch(:query, "").strip
+    @query = divination_params
     @books = []
 
     if @query.present?
@@ -32,7 +32,7 @@ class DivinationController < ApplicationController
   end
 
   def divination_params
-    params.expect(query: :query)
+    params.expect(:query)
   end
 
   def retrieve_books_for(query)
