@@ -25,6 +25,7 @@ RSpec.describe "Users registration", type: :system do
 
     expect(page).to have_content("Inscribe Your Name")
     click_link "Enter the Hut"
+    expect(page).to have_content("Enter the Hut")
     expect(current_path).to eq(new_session_path)
   end
 end
