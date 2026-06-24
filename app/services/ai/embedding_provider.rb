@@ -2,7 +2,7 @@ require "faraday"
 
 module Ai
   class EmbeddingProvider
-    BASE_URL = "#{ENV['EMBEDDING_SERVICE_URL']}/embedding"
+    # BASE_URL = "#{ENV['EMBEDDING_SERVICE_URL']}/embedding"
 
     attr_reader :sentences
 
@@ -34,7 +34,7 @@ module Ai
     end
 
     def self.connection
-      @connection ||= Faraday.new(BASE_URL) do |conn|
+      @connection ||= Faraday.new(Ai::Config.embedding_provider_url) do |conn|
         conn.request :json
         conn.response :json, content_type: "application/json"
         conn.options.timeout = 10 # Specific to embeddings
