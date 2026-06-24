@@ -3,9 +3,9 @@ require_relative "error"
 
 module Ai
   class LlmClient
-    BASE_URL = "https://router.huggingface.co/v1/chat/completions"
-    MODEL_PATH = "microsoft/Phi-3-mini-4k-instruct:featherless-ai"
-    API_KEY = ENV["HF_API_KEY"]
+    # BASE_URL = "https://router.huggingface.co/v1/chat/completions"
+    # MODEL_PATH = "microsoft/Phi-3-mini-4k-instruct:featherless-ai"
+    # API_KEY = ENV["HF_API_KEY"]
 
     attr_reader :source_sentence, :sentences
 
@@ -24,9 +24,9 @@ module Ai
         puts "Crunching sentences..."
         connection.post do |req|
           req.body = {
-            model: MODEL_PATH,
+            model: Ai::Config.llm_model_path,
             messages: build_messages,
-            max_tokens: 200
+            max_tokens: Ai::Config.llm_max_tokens
           }.to_json
         end
       end
@@ -87,7 +87,7 @@ module Ai
 
 
     def self.connection
-      @connection ||= Faraday.new(BASE_URL) do |conn|
+      @connection ||= Faraday.new(Ai::Config.llm_base_url) do |conn|
         conn.request :authorization, :Bearer, ENV["HF_API_KEY"]
         conn.request :json
         conn.response :json, content_type: "application/json"
