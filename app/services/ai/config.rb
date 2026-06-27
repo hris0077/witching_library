@@ -29,4 +29,6 @@ Ai::Config.configure do |config|
   config.llm_max_tokens = 500
   config.llm_temperature = 0.8
   config.embedding_provider_url = "#{ENV['EMBEDDING_SERVICE_URL']}/embedding"
+  config.retry_max_attempts = 3
+  config.retry_base_delay = 1.0
 end

@@ -20,21 +20,26 @@ module Ai
 
 
     def generate_text_response
-      response = Rails.cache.fetch([ "llm_response_#{Digest::MD5.hexdigest(sentences.to_s)}", sentences ], expires_in: 1.hour) do
-        puts "Crunching sentences..."
-        connection.post do |req|
-          req.body = {
-            model: Ai::Config.llm_model_path,
-            messages: build_messages,
-            max_tokens: Ai::Config.llm_max_tokens
-          }.to_json
+      @retries = 0
+      Ai::RetryPolicy.execute do
+        response = Rails.cache.fetch([ "llm_response_#{Digest::MD5.hexdigest(sentences.to_s)}", sentences ], expires_in: 1.hour) do
+          puts "Crunching sentences..."
+          connection.post do |req|
+            req.body = {
+              model: Ai::Config.llm_model_path,
+              messages: build_messages,
+              max_tokens: Ai::Config.llm_max_tokens
+            }.to_json
+          end
         end
       end
+
 
       response.body["choices"][0]["message"]["content"]&.strip
 
     rescue Faraday::ClientError => e
       status = e.response[:status]
+
       case status
       when 401
         raise Ai::AuthenticationError, "Invalid Hugging Face API key"
