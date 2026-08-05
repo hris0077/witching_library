@@ -2,11 +2,13 @@ require "rails_helper"
 
 RSpec.describe Ai::LlmClient, type: :service do
   describe '.call' do
+    let(:normal_query) { "magic spells" }
     let(:normal_source) { "You are an ancient oracle." }
     let(:normal_sentences) { [ "Tome 1: The Enchanted April" ] }
     context 'when the API returns success' do
       it 'returns the LLM response' do
         result = described_class.call(
+          query: normal_query,
           source_sentence: normal_source,
           sentences: normal_sentences
         )
@@ -17,6 +19,7 @@ RSpec.describe Ai::LlmClient, type: :service do
     context 'when the API returns a rate limit error (429)' do
       it 'raises Ai::RateLimitError' do
         expect { described_class.call(
+          query: normal_query,
           source_sentence: "trigger_rate_limit",
           sentences: normal_sentences
         ) }.to raise_error(::Ai::RateLimitError)
@@ -26,6 +29,7 @@ RSpec.describe Ai::LlmClient, type: :service do
     context 'when the API returns timeout error' do
       it 'raises Ai::ProviderError' do
         expect { described_class.call(
+          query: normal_query,
           source_sentence: "trigger_timeout",
           sentences: normal_sentences
         ) }.to raise_error(::Ai::ProviderError)
@@ -35,6 +39,7 @@ RSpec.describe Ai::LlmClient, type: :service do
     context 'when the API returns server error (500)' do
       it 'raises Ai::ProviderError' do
         expect { described_class.call(
+          query: normal_query,
           source_sentence: "trigger_server_error",
           sentences: normal_sentences
         ) }.to raise_error(::Ai::ProviderError)
@@ -42,6 +47,7 @@ RSpec.describe Ai::LlmClient, type: :service do
     end
 
     context 'when caching the response' do
+      let(:normal_query) { "magic spells" }
       let(:normal_source) { "You are an ancient oracle." }
       let(:normal_sentences) { [ "Tome 1: The Enchanted April" ] }
       let(:expected_response) { "The hut whispers of ancient magic and forgotten spells..." }
@@ -56,12 +62,14 @@ RSpec.describe Ai::LlmClient, type: :service do
         expect(Ai::LlmClient.connection).to receive(:post).once.and_call_original
 
         result1 = described_class.call(
+          query: normal_query,
           source_sentence: normal_source,
           sentences: normal_sentences
         )
         expect(result1).to eq(expected_response)
 
         result2 = described_class.call(
+          query: normal_query,
           source_sentence: normal_source,
           sentences: normal_sentences
         )

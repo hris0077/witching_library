@@ -4,7 +4,7 @@ class DivinationController < ApplicationController
   end
 
   def consult
-    @query = divination_params
+    @query = divination_params.strip.squeeze(" ").downcase
     @books = []
 
     if @query.present?
@@ -14,6 +14,7 @@ class DivinationController < ApplicationController
         prompt = Ai::PromptBuilder.for(query: @query, books: @books)
 
         @response = Ai::LlmClient.call(
+          query: @query,
           source_sentence: prompt[:source_sentence],
           sentences: prompt[:sentences]
         )
@@ -21,14 +22,19 @@ class DivinationController < ApplicationController
     end
 
     respond_to do |format|
+      flash.now[:alert] =  "The oracle has spoken. Wisdom flows from the ancient tomes."
       format.turbo_stream
       format.html { render :home }
     end
 
-  rescue StandardError => e
+  rescue Ai::Error => e
     Rails.logger.error("LLM failed: #{e.message}")
     @books = []
     flash.now[:alert] =  "The hut falls silent. The connection to the archives is broken. Please try again, seeker."
+    respond_to do |format|
+      format.turbo_stream { render :consult }
+      format.html { render :home }
+    end
   end
 
   def divination_params
@@ -38,7 +44,7 @@ class DivinationController < ApplicationController
   def retrieve_books_for(query)
     embedding = Rails.cache.fetch(Digest::MD5.hexdigest(query), expires_in: 1.day) do
       # Only executed if the cache does not already have a value for this key
-      puts "Crunching the numbers..."
+      Rails.logger.info("Crunching the numbers...")
       result = Ai::EmbeddingProvider.new(sentences: [ query ]).generate_embeddings
       result.dig("embedding", 0)
     end

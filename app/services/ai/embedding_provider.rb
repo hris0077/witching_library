@@ -14,9 +14,10 @@ module Ai
       response = connection.post do |req|
         req.body = { payload: @sentences }.to_json
       end
+
       parse_response(response)
 
-    rescue Faraday::ClientError => e
+    rescue Faraday::ConnectionFailed, Faraday::TimeoutError, Faraday::ClientError => e
       raise Ai::ProviderError, "Unexpected response: #{response.status}"
     end
 

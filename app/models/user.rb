@@ -18,7 +18,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
-  has_many :loan, dependent: :destroy
+  has_many :loans, dependent: :destroy
 
   validates :first_name, :last_name, presence: true
   validates :password, length: { in: 6..20 }
