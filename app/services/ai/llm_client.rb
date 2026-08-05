@@ -3,27 +3,23 @@ require_relative "error"
 
 module Ai
   class LlmClient
-    # BASE_URL = "https://router.huggingface.co/v1/chat/completions"
-    # MODEL_PATH = "microsoft/Phi-3-mini-4k-instruct:featherless-ai"
-    # API_KEY = ENV["HF_API_KEY"]
+    attr_reader :query, :source_sentence, :sentences
 
-    attr_reader :source_sentence, :sentences
-
-    def self.call(source_sentence:, sentences:)
-      new(source_sentence: source_sentence, sentences: sentences).generate_text_response
+    def self.call(query:, source_sentence:, sentences:)
+      new(query: query, source_sentence: source_sentence, sentences: sentences).generate_text_response
     end
 
-    def initialize(source_sentence:, sentences:)
+    def initialize(query:, source_sentence:, sentences:)
+      @query = query
       @source_sentence = source_sentence
       @sentences = sentences
     end
 
 
     def generate_text_response
-      @retries = 0
-      Ai::RetryPolicy.execute do
-        response = Rails.cache.fetch([ "llm_response_#{Digest::MD5.hexdigest(sentences.to_s)}", sentences ], expires_in: 1.hour) do
-          puts "Crunching sentences..."
+      Rails.cache.fetch("llm_response_#{Digest::MD5.hexdigest(query)}", expires_in: 1.day) do
+        response = Ai::RetryPolicy.execute do
+          Rails.logger.info("Crunching sentences from llm_client...")
           connection.post do |req|
             req.body = {
               model: Ai::Config.llm_model_path,
@@ -32,14 +28,31 @@ module Ai
             }.to_json
           end
         end
+        handle_response(response)
       end
 
-
-      response.body["choices"][0]["message"]["content"]&.strip
-
+    rescue Faraday::ConnectionFailed, Faraday::TimeoutError => e
+      raise Ai::ConnectionError, "Network failure: #{e.message}"
+    rescue Faraday::ServerError => e
+      raise Ai::ProviderError, "Provider failure: #{e.message}"
     rescue Faraday::ClientError => e
-      status = e.response[:status]
+      handle_client_error(e)
+    end
 
+    def handle_response(response)
+      unless response.success?
+        raise Ai::ProviderError, "Unexpected response: #{response.status}"
+      end
+
+      content = response.body.dig("choices", 0, "message", "content")
+
+      raise Ai::ProviderError, "Response did not contain generated text" if content.blank?
+
+      content.strip
+    end
+
+    def handle_client_error(e)
+      status = e.response[:status]
       case status
       when 401
         raise Ai::AuthenticationError, "Invalid Hugging Face API key"
@@ -47,24 +60,6 @@ module Ai
         raise Ai::RateLimitError, "Hugging Face rate limit exceeded"
       else
         raise Ai::ProviderError, "Unexpected response: #{status}"
-      end
-    rescue Faraday::ServerError => e
-      raise Ai::ProviderError, "Hugging Face server error: #{e.response[:status]}"
-
-    rescue Faraday::Error => e
-      raise Ai::ConnectionError, "Network failure: #{e.message}"
-    end
-
-    def handle_response(response)
-      case response.status
-      when 200
-        response.body["choices"][0]["message"]["content"]&.strip
-      when 401
-        raise Ai::AuthenticationError, "Invalid Hugging Face API key"
-      when 429
-        raise Ai::RateLimitError, "Hugging Face rate limit exceeded"
-      else
-        raise Ai::ProviderError, "Unexpected response: #{response.status}"
       end
     end
 
@@ -82,14 +77,6 @@ module Ai
         }
       ]
     end
-
-    def parse_response(response)
-      response.body["choices"][0]["message"]["content"]&.strip
-      # data = JSON.parse(response.body)
-      # HF returns: [{ "generated_text": "..." }]
-      # data.first&.dig("generated_text")&.strip
-    end
-
 
     def self.connection
       @connection ||= Faraday.new(Ai::Config.llm_base_url) do |conn|

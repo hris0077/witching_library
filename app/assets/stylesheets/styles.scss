@@ -42,12 +42,20 @@ h3,
 .navbar .btn-outline-light:hover {
   color: var(--bs-dark);
 }
-/*
-.header {
-  background: url(../images/header-background.jpg) center center no-repeat;
-  background-size: cover;
+
+.text-gold {
+  color: #d4af37;
 }
-*/
+
+.navbar-brand-icon {
+  font-size: 1.8rem;
+}
+
+.oracle-title {
+  font-size: 1.25rem;
+  letter-spacing: 0.05em;
+}
+
 /* Dark form overrides */
 .form-control.bg-dark {
   background-color: #1a1d23 !important;
@@ -78,16 +86,16 @@ h3,
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-s);
+  gap: 0.5rem;
 
   max-width: 100%;
   width: max-content;
-  padding: 0 var(--space-m);
+  padding: 0 1rem;
 
   &__message {
-    font-size: var(--font-size-s);
-    color: var(--color-white);
-    padding: var(--space-xs) var(--space-m);
+    font-size: 0.875rem;
+    color: #fff;
+    padding: 0.25rem 1rem;
     background-color: #f6ad55;
     animation: appear-then-fade 4s both;
     border-radius: 999px;

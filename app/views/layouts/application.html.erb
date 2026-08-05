@@ -28,7 +28,7 @@
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
       <div class="container">
         <a href="<%= root_path %>" class="navbar-brand d-flex align-items-center">
-          <i class="bi bi-house-heart-fill me-2" style="font-size: 1.8rem; color: #d4af37;"></i>
+          <i class="bi bi-house-heart-fill me-2 navbar-brand-icon text-gold"></i>
           <span class="fw-bold">The Hut</span>
         </a>
 
@@ -95,14 +95,9 @@
       </div>
     </nav>
 
-    <div class="flash">
-      <% flash.each do |flash_type, message| %>
-        <div class="flash__message">
-          <%= message %>
-        </div>
-      <% end %>
+    <div id="flash" class="flash">
+      <%= render "shared/flash" %>
     </div>
-
     <header class="header">
       <div class="hero text-white pt-7">
         <div class="container-xl">
