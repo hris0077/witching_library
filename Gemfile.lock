@@ -105,6 +105,7 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    cgi (0.5.2)
     concurrent-ruby (1.3.8)
     connection_pool (3.0.2)
     crass (1.0.7)
@@ -218,8 +219,6 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.4-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.19.4-x86_64-darwin)
-      racc (~> 1.4)
     nokogiri (1.19.4-x86_64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.19.4-x86_64-linux-musl)
@@ -237,7 +236,6 @@ GEM
     pg (1.6.3-aarch64-linux)
     pg (1.6.3-aarch64-linux-musl)
     pg (1.6.3-arm64-darwin)
-    pg (1.6.3-x86_64-darwin)
     pg (1.6.3-x86_64-linux)
     pg (1.6.3-x86_64-linux-musl)
     pgvector (0.3.3)
@@ -399,7 +397,6 @@ GEM
     thruster (0.1.23)
     thruster (0.1.23-aarch64-linux)
     thruster (0.1.23-arm64-darwin)
-    thruster (0.1.23-x86_64-darwin)
     thruster (0.1.23-x86_64-linux)
     timeout (0.6.1)
     tsort (0.2.0)
@@ -433,7 +430,6 @@ PLATFORMS
   arm-linux-gnu
   arm-linux-musl
   arm64-darwin-25
-  x86_64-darwin-24
   x86_64-linux
   x86_64-linux-gnu
   x86_64-linux-musl
