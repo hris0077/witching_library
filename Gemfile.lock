@@ -107,7 +107,7 @@ GEM
       xpath (~> 3.2)
     concurrent-ruby (1.3.7)
     connection_pool (3.0.2)
-    crass (1.0.6)
+    crass (1.0.7)
     cssbundling-rails (1.4.3)
       railties (>= 6.0.0)
     csv (3.3.5)
@@ -216,6 +216,8 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.4-arm-linux-musl)
       racc (~> 1.4)
+    nokogiri (1.19.4-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.19.4-x86_64-darwin)
       racc (~> 1.4)
     nokogiri (1.19.4-x86_64-linux-gnu)
@@ -230,6 +232,7 @@ GEM
     pg (1.6.3)
     pg (1.6.3-aarch64-linux)
     pg (1.6.3-aarch64-linux-musl)
+    pg (1.6.3-arm64-darwin)
     pg (1.6.3-x86_64-darwin)
     pg (1.6.3-x86_64-linux)
     pg (1.6.3-x86_64-linux-musl)
@@ -390,6 +393,7 @@ GEM
     thor (1.5.0)
     thruster (0.1.21)
     thruster (0.1.21-aarch64-linux)
+    thruster (0.1.21-arm64-darwin)
     thruster (0.1.21-x86_64-darwin)
     thruster (0.1.21-x86_64-linux)
     timeout (0.6.1)
@@ -423,6 +427,7 @@ PLATFORMS
   aarch64-linux-musl
   arm-linux-gnu
   arm-linux-musl
+  arm64-darwin-25
   x86_64-darwin-24
   x86_64-linux
   x86_64-linux-gnu
