@@ -223,10 +223,11 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.4-x86_64-linux-musl)
       racc (~> 1.4)
-    openai (0.77.1)
+    openai (0.80.0)
       base64
       cgi
-      connection_pool
+      connection_pool (>= 2.2.3)
+      logger
     ostruct (0.6.3)
     parallel (2.1.0)
     parser (3.3.11.1)
@@ -454,7 +455,7 @@ DEPENDENCIES
   jsbundling-rails
   kamal
   neighbor
-  openai (~> 0.77.1)
+  openai (~> 0.80.0)
   pg (~> 1.1)
   pgvector
   propshaft
